@@ -6,9 +6,9 @@ dotenv.config();
 // For specifics such as allows countries, languages see documentation - https://mediastack.com/documentation
 
 (async () => {
-    const keyword = 'javascript';
+    const keywords = 'javascript';
 
-    await getLiveNews(keyword);
+    await getLiveNews(keywords, 'technology');
 
 
 })();
@@ -19,11 +19,11 @@ dotenv.config();
  * categories has specific categories that must be used. See above documentation.
  * countries listed here - https://mediastack.com/sources
  * 
- * @param keyword string Can be comma separated and have negative keyword "tennis,-pizza"
+ * @param keywords string Can be comma separated and have negative keyword "tennis,-pizza"
  * @param categories string Optional. Can be comma separated and have negative keyword "sports,-business"
  */
-async function getLiveNews(keyword: string, categories?: string) {
-    let url = `http://api.mediastack.com/v1/news?access_key=${process.env.mediaStackAccessKey}&keywords=${keyword}
+async function getLiveNews(keywords: string, categories?: string) {
+    let url = `http://api.mediastack.com/v1/news?access_key=${process.env.mediaStackAccessKey}&keywords=${keywords}
         &countries=us`;
 
     if (categories) {
@@ -33,7 +33,7 @@ async function getLiveNews(keyword: string, categories?: string) {
     const axiosResponse = await axios.get(url);
 
     console.log('Axios response from getting live news', axiosResponse.data.data.length,
-        axiosResponse.data.data[0], axiosResponse.data.data[7]);
+        axiosResponse.data.data);
 
     return axiosResponse.data;
 }
@@ -45,12 +45,12 @@ async function getLiveNews(keyword: string, categories?: string) {
  * This allows you to search a specific endpoint.
  * View all options here - https://mediastack.com/documentation#historical_news
  * 
- * @param keyword string Can be comma separated and have negative keyword "tennis,-pizza"
+ * @param keywords string Can be comma separated and have negative keyword "tennis,-pizza"
  * @param date string YYYY-MM-DD "2020-07-04"
  * @param categories string Optional. Can be comma separated and have negative keyword "tennis,-pizza"
  */
-async function getHistoricalNews(keyword: string, date: string, categories?: string) {
-    let url = `http://api.mediastack.com/v1/news?access_key=${process.env.mediaStackAccessKey}&keywords=${keyword}
+async function getHistoricalNews(keywords: string, date: string, categories?: string) {
+    let url = `http://api.mediastack.com/v1/news?access_key=${process.env.mediaStackAccessKey}&keywords=${keywords}
         &countries=us&date=${date}`;
 
     if (categories) {
